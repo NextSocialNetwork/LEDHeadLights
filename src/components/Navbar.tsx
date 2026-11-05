@@ -5,9 +5,7 @@ import {
   MapPin, 
   ShoppingBag, 
   Globe, 
-  Sparkles, 
   Check, 
-  DollarSign, 
   Car, 
   Zap, 
   ChevronDown
@@ -21,7 +19,7 @@ interface NavbarProps {
   onSelectLang: (lang: LanguageCode) => void;
   cart: CartItem[];
   onOpenCart: () => void;
-  onOpenAiChat: () => void;
+  onOpenAiChat?: () => void;
 }
 
 const LANGUAGES: { code: LanguageCode; label: string; flag: string }[] = [
@@ -38,7 +36,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectLang,
   cart,
   onOpenCart,
-  onOpenAiChat,
 }) => {
   const t = TRANSLATIONS[currentLang];
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -181,14 +178,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          {/* AI Chat Support Trigger */}
-          <button
-            onClick={onOpenAiChat}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-sky-500/10 to-blue-500/10 border border-sky-500/30 hover:border-sky-400/60 text-xs font-semibold text-sky-300 hover:text-white transition-all shadow-sm"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
-            <span className="hidden sm:inline">AI Support</span>
-          </button>
 
           {/* Cart Button */}
           <button
