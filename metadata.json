@@ -1,0 +1,6 @@
+{
+  "name": "LED Headlights - 6000K Diamond White Mini Bulbs",
+  "description": "High-performance 6000K Diamond White Mini LED Headlight Bulbs ($30/pair) with AI Bulb Finder, Socket Selector (H1, H3, H4, H7, 9005, H8, H11), and Cash App orders.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
