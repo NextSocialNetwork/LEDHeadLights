@@ -1,4 +1,4 @@
-export type SocketType = 'H1' | 'H3' | 'H4' | 'H7' | '9005' | 'H8' | 'H11';
+export type SocketType = 'H1' | 'H3' | 'H4' | 'H7' | '9005' | 'H8' | 'H11' | 'H12';
 
 export type LanguageCode = 'en' | 'es' | 'pl' | 'lt' | 'uk' | 'ru';
 
@@ -8,7 +8,7 @@ export interface BulbListing {
   socketCode: string;
   aliases: string[];
   beamType: 'Single High/Low' | 'Dual Hi/Low' | 'Fog / Low Beam' | 'High Beam / Fog' | 'Low / Fog';
-  price: number; // $30
+  price: number; // $35.00
   colorTemp: string; // "6000K Diamond White"
   lumens: string; // "16,000 Lumens / Pair"
   wattage: string; // "60W / Pair"
@@ -30,7 +30,7 @@ export interface CartItem {
 
 export interface DeliveryOptions {
   method: 'shipping' | 'pickup';
-  shippingCost: number; // $15 for shipping, $0 for Chicago pickup
+  shippingCost: number; // $10 for shipping (7-14 Business Days), $0 for Chicago pickup
 }
 
 export interface OrderForm {
@@ -50,3 +50,19 @@ export interface ChatMessage {
   content: string;
   timestamp: string;
 }
+
+export interface CustomerReview {
+  id: string;
+  author: string;
+  location: string;
+  rating: 5;
+  vehicle: string;
+  switchedFrom: string;
+  socket: SocketType;
+  title: string;
+  comment: string;
+  date: string;
+  verifiedBuyer: boolean;
+  fulfillmentMethod: 'Shipping' | 'Chicago Pickup';
+}
+

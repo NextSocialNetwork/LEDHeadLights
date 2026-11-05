@@ -79,7 +79,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
                 <div className="space-y-1">
                   <p className="text-zinc-300 font-semibold">{t.cartEmpty}</p>
-                  <p className="text-xs text-zinc-500">All Mini LED bulb sockets are $30 per pair.</p>
+                  <p className="text-xs text-zinc-500">All Mini LED bulb sockets are $35.00 per pair.</p>
                 </div>
                 <button
                   onClick={onClose}
@@ -127,7 +127,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <div className="flex items-center justify-between pt-2">
                       <div className="text-sm font-black text-white font-mono">
                         ${item.bulb.price * item.quantity}
-                        <span className="text-[10px] text-zinc-500 font-sans ml-1">($30/pair)</span>
+                        <span className="text-[10px] text-zinc-500 font-sans ml-1">($35.00/pair)</span>
                       </div>
 
                       {/* Quantity Controls */}
@@ -166,7 +166,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
                 <div className="flex justify-between text-zinc-400 text-[11px]">
                   <span>Shipping via Cash App:</span>
-                  <span className="text-sky-400 font-medium">+$15 (or $0 Chicago pickup)</span>
+                  <span className="text-sky-400 font-medium">+$10 (7-14 Business Days or $0 Chicago pickup)</span>
                 </div>
               </div>
 

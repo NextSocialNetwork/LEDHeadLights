@@ -34,7 +34,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hello! I am your **LED Headlights AI Support Specialist** for **LEDHeadlights.Org**. \n\nI can help you:\n• Find the exact bulb socket (H1, H3, H4, H7, 9005, H8, H11) for your vehicle\n• Explain our **6000K Diamond White Mini** technology & 1:1 fitment\n• Help you order via **Cash App ($muahz26)** for $30/pair + $15 shipping or Chicago pickup!\n\nWhat car do you drive?`,
+      content: `Hello! I am your **LED Headlights AI Support Specialist** for **LEDHeadlights.Org**. \n\nI can help you:\n• Find the exact bulb socket (H1, H3, H4, H7, 9005, H8, H11) for your vehicle\n• Explain our **6000K Diamond White Mini** technology & 1:1 fitment\n• Help you order via **Cash App ($muahz26)** for $35.00/pair + $10 shipping (7-14 Business Days) or Chicago pickup!\n\nWhat car do you drive?`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -96,7 +96,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `I'm having trouble connecting to the network right now, but you can always reach Mantas directly at **${OWNER_CONTACT.phone}** (Call or Text) or email **${OWNER_CONTACT.email}**! \n\nAll bulbs (H1, H3, H4, H7, 9005, H8, H11) are **$30 per pair** + **$15 shipping** via Cash App **$muahz26**, or free local pickup in Chicago.`,
+        content: `I'm having trouble connecting to the network right now, but you can always reach Mantas directly at **${OWNER_CONTACT.phone}** (Call or Text) or email **${OWNER_CONTACT.email}**! \n\nAll bulbs (H1, H3, H4, H7, 9005, H8, H11) are **$35.00 per pair** + **$10 shipping (7-14 Business Days)** via Cash App **$muahz26**, or free local pickup in Chicago.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages(prev => [...prev, errorMsg]);

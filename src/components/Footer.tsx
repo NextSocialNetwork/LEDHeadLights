@@ -127,7 +127,7 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             <p className="text-zinc-400 text-xs leading-relaxed max-w-sm">
-              Precision 6000K Diamond White Mini LED Headlight Bulbs engineered for maximum nocturnal clarity. All socket models (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11) in stock at $30 each pair with $15 nationwide express shipping or Chicago local pickup.
+              Precision 6000K Diamond White Mini LED Headlight Bulbs engineered for maximum nocturnal clarity. All socket models (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11, and H12) in stock at $35.00 each pair with $10 shipping (7-14 Business Days) or Chicago local pickup.
             </p>
 
             <div className="flex items-center gap-3 pt-1">
@@ -151,7 +151,7 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Quick Socket Links */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white font-heading">
-              Available Socket Models ($30/Pair)
+              Available Socket Models ($35.00/Pair)
             </h4>
             <ul className="space-y-1.5 text-xs text-zinc-400">
               <li><a href="#listings" className="hover:text-sky-400 transition-colors">H1 Mini LED (Single Beam)</a></li>
@@ -161,6 +161,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li><a href="#listings" className="hover:text-sky-400 transition-colors">9005 / HB5 High Beam Powerhouse</a></li>
               <li><a href="#listings" className="hover:text-sky-400 transition-colors">H8 Mini LED (Fog & Angel Eyes)</a></li>
               <li><a href="#listings" className="hover:text-sky-400 transition-colors">H11 Mini LED (#1 Best Seller)</a></li>
+              <li><a href="#listings" className="hover:text-sky-400 transition-colors">H12 / 9055 Mini LED (Trucks & Fog)</a></li>
             </ul>
           </div>
 

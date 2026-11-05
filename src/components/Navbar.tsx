@@ -8,13 +8,7 @@ import {
   Check, 
   Car, 
   Zap, 
-  ChevronDown,
-  Menu,
-  X,
-  ExternalLink,
-  HelpCircle,
-  Cpu,
-  Eye
+  ChevronDown
 } from 'lucide-react';
 import { LanguageCode, CartItem } from '../types';
 import { TRANSLATIONS } from '../data/translations';
@@ -42,24 +36,22 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectLang,
   cart,
   onOpenCart,
-  onOpenAiChat,
 }) => {
   const t = TRANSLATIONS[currentLang];
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [langMenuOpen, setLangMenuOpen] = React.useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800">
+    <header className="sticky top-0 z-40 w-full bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800">
       {/* Top Announcement & Direct Contact Bar */}
-      <div className="bg-gradient-to-r from-sky-950 via-zinc-900 to-sky-950 px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs border-b border-sky-500/20 text-zinc-300">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 sm:gap-4 truncate">
-            <span className="flex items-center gap-1 text-sky-400 font-semibold truncate">
-              <Zap className="w-3.5 h-3.5 text-sky-400 animate-pulse shrink-0" />
-              <span className="truncate">6000K Mini LEDs — $30/Pair</span>
+      <div className="bg-gradient-to-r from-sky-950 via-zinc-900 to-sky-950 px-4 py-1.5 text-xs border-b border-sky-500/20 text-zinc-300">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="flex items-center gap-1 text-sky-400 font-semibold">
+              <Zap className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
+              6000K Diamond White Mini LEDs — $35.00/Pair
             </span>
-            <span className="hidden sm:inline-block text-zinc-600">|</span>
+            <span className="hidden sm:inline-block text-zinc-500">|</span>
             <span className="hidden sm:flex items-center gap-1 text-zinc-300">
               <span className="text-emerald-400 font-medium">Cash App:</span>
               <a 
@@ -71,28 +63,27 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ${OWNER_CONTACT.cashAppHandle}
               </a>
             </span>
-            <span className="hidden md:inline-block text-zinc-600">|</span>
+            <span className="hidden md:inline-block text-zinc-500">|</span>
             <span className="hidden md:flex items-center gap-1 text-zinc-400">
-              <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              Chicago Pickup Available
+              <MapPin className="w-3.5 h-3.5 text-amber-400" />
+              Chicago, IL (Local Pickup Available)
             </span>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0 text-[11px] sm:text-xs">
+          <div className="flex items-center gap-3 ml-auto text-xs">
             <a 
               href={`tel:${OWNER_CONTACT.phoneRaw}`} 
-              className="flex items-center gap-1 text-zinc-200 hover:text-sky-400 transition-colors font-bold sm:font-medium"
+              className="flex items-center gap-1 text-zinc-200 hover:text-sky-400 transition-colors font-medium"
             >
-              <Phone className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-              <span className="hidden xs:inline">{OWNER_CONTACT.phone}</span>
-              <span className="xs:hidden">Call/Text</span>
+              <Phone className="w-3.5 h-3.5 text-sky-400" />
+              <span>{OWNER_CONTACT.phone}</span>
             </a>
-            <span className="text-zinc-600 hidden sm:inline">|</span>
+            <span className="text-zinc-600">|</span>
             <a 
               href={`mailto:${OWNER_CONTACT.email}`} 
               className="hidden lg:flex items-center gap-1 text-zinc-300 hover:text-sky-400 transition-colors"
             >
-              <Mail className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+              <Mail className="w-3.5 h-3.5 text-sky-400" />
               <span>{OWNER_CONTACT.email}</span>
             </a>
           </div>
@@ -100,22 +91,22 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-15 sm:h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Name */}
-        <a href="#" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-500/25 ring-1 ring-white/20 shrink-0">
-            <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+        <a href="#" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-500/25 ring-1 ring-white/20">
+            <Zap className="w-5 h-5 text-white" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="text-base sm:text-lg font-black tracking-wider text-white uppercase font-heading group-hover:text-sky-400 transition-colors">
+            <div className="flex items-center gap-2">
+              <span className="text-lg font-black tracking-wider text-white uppercase font-heading group-hover:text-sky-400 transition-colors">
                 {t.brandTitle}
               </span>
-              <span className="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
                 6000K
               </span>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-zinc-400 font-mono tracking-tight">
+            <p className="text-[11px] text-zinc-400 font-mono tracking-tight">
               {OWNER_CONTACT.websiteDomain}
             </p>
           </div>
@@ -129,6 +120,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a href="#finder" className="hover:text-sky-400 transition-colors flex items-center gap-1">
             <Car className="w-4 h-4 text-sky-400" />
             {t.navBulbFinder}
+          </a>
+          <a href="#reviews" className="hover:text-amber-300 transition-colors flex items-center gap-1">
+            <span className="text-amber-400">★</span>
+            <span>Reviews (258)</span>
           </a>
           <a href="#comparison" className="hover:text-sky-400 transition-colors">
             {t.navComparison}
@@ -144,13 +139,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
         </nav>
 
-        {/* Right Action Icons: Language, Cart & Mobile Menu Toggle */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
+        {/* Right Action Icons: Language, AI Chat & Cart */}
+        <div className="flex items-center gap-2.5">
           {/* Language Selector Dropdown */}
           <div className="relative">
             <button
               onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs text-zinc-200 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs text-zinc-200 transition-colors"
               title="Select Language"
             >
               <Globe className="w-3.5 h-3.5 text-sky-400" />
@@ -187,119 +182,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
+
           {/* Cart Button */}
           <button
             onClick={onOpenCart}
-            className="relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-zinc-950 font-bold text-xs transition-colors shadow-lg shadow-sky-500/20"
+            className="relative flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-zinc-950 font-bold text-xs transition-colors shadow-lg shadow-sky-500/20"
           >
-            <ShoppingBag className="w-4 h-4 text-zinc-950 shrink-0" />
+            <ShoppingBag className="w-4 h-4 text-zinc-950" />
             <span className="hidden sm:inline">{t.cart}</span>
             {totalCartCount > 0 && (
-              <span className="w-5 h-5 rounded-full bg-zinc-950 text-sky-300 font-black text-[11px] flex items-center justify-center">
+              <span className="w-5 h-5 rounded-full bg-zinc-950 text-sky-300 font-black text-[11px] flex items-center justify-center ml-0.5">
                 {totalCartCount}
               </span>
             )}
           </button>
-
-          {/* Mobile Hamburger Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white lg:hidden transition-colors"
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-sky-400" /> : <Menu className="w-5 h-5" />}
-          </button>
         </div>
       </div>
-
-      {/* Mobile Navigation Dropdown Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-zinc-800/80 bg-zinc-950/98 px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col space-y-2 text-sm">
-            <a
-              href="#listings"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-900/60 hover:bg-sky-500/10 text-zinc-200 hover:text-sky-300 transition-colors"
-            >
-              <span className="flex items-center gap-2.5 font-medium">
-                <Zap className="w-4 h-4 text-sky-400" />
-                <span>{t.navProducts} ($30/Pair)</span>
-              </span>
-              <span className="text-[10px] text-sky-400 font-mono">7 Sockets</span>
-            </a>
-
-            <a
-              href="#finder"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-900/60 hover:bg-sky-500/10 text-zinc-200 hover:text-sky-300 transition-colors"
-            >
-              <span className="flex items-center gap-2.5 font-medium">
-                <Car className="w-4 h-4 text-sky-400" />
-                <span>{t.navBulbFinder}</span>
-              </span>
-              <span className="text-[10px] text-zinc-400">Fitment</span>
-            </a>
-
-            <a
-              href="#comparison"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-sky-500/10 text-zinc-200 hover:text-sky-300 transition-colors font-medium"
-            >
-              <Eye className="w-4 h-4 text-sky-400" />
-              <span>{t.navComparison}</span>
-            </a>
-
-            <a
-              href="#specs"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-sky-500/10 text-zinc-200 hover:text-sky-300 transition-colors font-medium"
-            >
-              <Cpu className="w-4 h-4 text-sky-400" />
-              <span>{t.navSpecs}</span>
-            </a>
-
-            <a
-              href="#faq"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-sky-500/10 text-zinc-200 hover:text-sky-300 transition-colors font-medium"
-            >
-              <HelpCircle className="w-4 h-4 text-sky-400" />
-              <span>{t.navFaq}</span>
-            </a>
-
-            <a
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 p-2.5 rounded-xl bg-zinc-900/60 hover:bg-sky-500/10 text-zinc-200 hover:text-sky-300 transition-colors font-medium"
-            >
-              <Phone className="w-4 h-4 text-sky-400" />
-              <span>{t.navContact} ({OWNER_CONTACT.phone})</span>
-            </a>
-          </nav>
-
-          {/* Direct Mobile Quick Actions */}
-          <div className="pt-2 border-t border-zinc-800 grid grid-cols-2 gap-2 text-xs">
-            <a
-              href={OWNER_CONTACT.cashAppUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="p-2.5 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-bold flex items-center justify-center gap-1.5"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>Cash App Pay</span>
-            </a>
-
-            <a
-              href={`tel:${OWNER_CONTACT.phoneRaw}`}
-              className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-white font-bold flex items-center justify-center gap-1.5"
-            >
-              <Phone className="w-3.5 h-3.5 text-sky-400" />
-              <span>Call Mantas</span>
-            </a>
-          </div>
-        </div>
-      )}
     </header>
   );
 };
-

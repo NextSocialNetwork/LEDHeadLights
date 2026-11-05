@@ -74,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <div className="absolute top-3 right-3 z-10">
           <span className="px-2 py-1 rounded-md text-[10px] font-bold bg-emerald-950/90 backdrop-blur-md text-emerald-400 border border-emerald-500/40">
-            $30 / Pair
+            $35.00 / Pair
           </span>
         </div>
 
@@ -125,12 +125,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div>
             <div className="text-[10px] uppercase font-bold text-zinc-400">Pair Price</div>
             <div className="text-2xl font-black text-white font-heading leading-tight">
-              $30
+              $35.00
               <span className="text-xs font-normal text-zinc-400 ml-1">/ pair</span>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[10px] uppercase font-bold text-sky-400">+ $15 Shipping</div>
+            <div className="text-[10px] uppercase font-bold text-sky-400">+ $10 Shipping (7-14 Days)</div>
             <div className="text-[11px] text-zinc-400">
               via Cash App <span className="text-emerald-400 font-mono">${OWNER_CONTACT.cashAppHandle}</span>
             </div>

@@ -10,6 +10,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductListings } from './components/ProductListings';
 import { BulbFinder } from './components/BulbFinder';
+import { CustomerReviews } from './components/CustomerReviews';
 import { BeamComparison } from './components/BeamComparison';
 import { SpecsOverview } from './components/SpecsOverview';
 import { FaqSection } from './components/FaqSection';
@@ -100,7 +101,7 @@ export default function App() {
           onOpenCashAppModal={() => setIsCashAppModalOpen(true)}
         />
 
-        {/* Separate Listings for H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11 ($30 each pair) */}
+        {/* Separate Listings for H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11 ($35.00 each pair) */}
         <ProductListings
           currentLang={currentLang}
           selectedSocketId={selectedSocketId}
@@ -114,6 +115,9 @@ export default function App() {
           onSelectSocket={handleSelectSocket}
           onOpenAiChat={() => setIsAiChatOpen(true)}
         />
+
+        {/* 258 5-Star Reviews from Drivers Who Switched from Halogen to LED */}
+        <CustomerReviews currentLang={currentLang} />
 
         {/* 6000K vs Stock Halogen Night Road Comparison */}
         <BeamComparison currentLang={currentLang} />

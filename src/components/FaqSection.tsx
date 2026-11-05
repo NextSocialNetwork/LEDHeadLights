@@ -21,15 +21,15 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
   const faqs = [
     {
       q: 'How much are the bulbs and what does shipping cost?',
-      a: `All bulb sockets (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11) are exactly **$30 each pair** (2 bulbs included). Flat-rate nationwide express tracked shipping is **$15**. Total for one pair shipped is **$45**. Payment for shipping orders is sent directly via **Cash App** to **https://cash.app/$muahz26** ($muahz26).`,
+      a: `All bulb sockets (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11, and H12) are exactly **$35.00 each pair** (2 bulbs included). Flat-rate nationwide tracked shipping (7-14 business days) is **$10**. Total for one pair shipped is **$45.00**. Payment for shipping orders is sent directly via **Cash App** to **https://cash.app/$muahz26** ($muahz26).`,
     },
     {
       q: 'Can I pick them up locally in Chicago, IL?',
-      a: `**Yes!** If you are in the Chicago area, local in-person pickup is available for **$30 per pair with $0 shipping**. You can pay with cash or Cash App upon pickup. Contact Mantas directly at **+1 (312) 385 - 9229** (Call or Text) or email **MantasChicago36@Gmail.Com** to coordinate pickup location and time.`,
+      a: `**Yes!** If you are in the Chicago area, local in-person pickup is available for **$35.00 per pair with $0 shipping**. You can pay with cash or Cash App upon pickup. Contact Mantas directly at **+1 (312) 385 - 9229** (Call or Text) or email **MantasChicago36@Gmail.Com** to coordinate pickup location and time.`,
     },
     {
       q: 'How do I pay and place my order on Cash App?',
-      a: `1. Open Cash App and send the total amount ($45 for 1 pair shipped, $75 for 2 pairs shipped) to **https://cash.app/$muahz26** (CashTag: **$muahz26**).\n2. In the Cash App note/memo, write your **Name, Shipping Address, and the Bulb Socket(s)** you need (e.g. "John Smith, 1x H11, 123 Main St, Chicago IL 60601").\n3. You can also text or call Mantas at **(312) 385-9229** or email **MantasChicago36@Gmail.Com** with your order info for immediate tracking confirmation!`,
+      a: `1. Open Cash App and send the total amount ($45 for 1 pair shipped, $80 for 2 pairs shipped) to **https://cash.app/$muahz26** (CashTag: **$muahz26**).\n2. In the Cash App note/memo, write your **Name, Shipping Address, and the Bulb Socket(s)** you need (e.g. "John Smith, 1x H11, 123 Main St, Chicago IL 60601").\n3. You can also text or call Mantas at **(312) 385-9229** or email **MantasChicago36@Gmail.Com** with your order info for immediate tracking confirmation!`,
     },
     {
       q: 'What makes 6000K Diamond White the best color temperature?',
@@ -63,7 +63,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
             Everything You Need to Know
           </h2>
           <p className="text-zinc-400 text-sm">
-            Details on Cash App ordering, $15 shipping, Chicago pickup, and socket compatibility.
+            Details on Cash App ordering, $10 shipping (7-14 Business Days), Chicago pickup, and socket compatibility.
           </p>
         </div>
 

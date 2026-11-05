@@ -27,7 +27,8 @@ export const BulbFinder: React.FC<BulbFinderProps> = ({
   const handleSocketClick = (socketStr: string) => {
     // Extract base socket if composite
     let targetSocket: SocketType = 'H11';
-    if (socketStr.includes('H11')) targetSocket = 'H11';
+    if (socketStr.includes('H12') || socketStr.includes('9055')) targetSocket = 'H12';
+    else if (socketStr.includes('H11')) targetSocket = 'H11';
     else if (socketStr.includes('H4') || socketStr.includes('9003')) targetSocket = 'H4';
     else if (socketStr.includes('H7')) targetSocket = 'H7';
     else if (socketStr.includes('9005') || socketStr.includes('HB5') || socketStr.includes('HB3')) targetSocket = '9005';
@@ -127,7 +128,7 @@ export const BulbFinder: React.FC<BulbFinderProps> = ({
                   </h3>
                 </div>
                 <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30">
-                  Ready to Order • $30/Pair
+                  Ready to Order • $35.00/Pair
                 </span>
               </div>
 

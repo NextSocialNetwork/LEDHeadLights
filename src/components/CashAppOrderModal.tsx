@@ -49,7 +49,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
   if (!isOpen) return null;
 
   const totalPairs = items.reduce((sum, item) => sum + item.quantity, 0) || 1;
-  const bulbsSubtotal = items.reduce((sum, item) => sum + item.quantity * item.bulb.price, 0) || 30;
+  const bulbsSubtotal = items.reduce((sum, item) => sum + item.quantity * item.bulb.price, 0) || 35;
   const shippingCost = deliveryMethod === 'shipping' ? OWNER_CONTACT.shippingCost : 0;
   const finalTotal = bulbsSubtotal + shippingCost;
 
@@ -79,7 +79,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
   const handleEmailOrder = () => {
     const subject = encodeURIComponent(`Order for ${itemSummary} - Total $${finalTotal}`);
     const body = encodeURIComponent(
-      `Hello Mantas,\n\nI just placed an order for LED Headlights.\n\nItems: ${itemSummary}\nTotal Amount: $${finalTotal} (Paid via Cash App $${OWNER_CONTACT.cashAppHandle})\nDelivery: ${deliveryMethod === 'shipping' ? 'Nationwide Shipping ($15)' : 'Chicago Local Pickup'}\n\nCustomer Details:\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nAddress: ${formData.street}, ${formData.city}, ${formData.state} ${formData.zip}\nVehicle: ${formData.vehicleNotes}\n\nThank you!`
+      `Hello Mantas,\n\nI just placed an order for LED Headlights.\n\nItems: ${itemSummary}\nTotal Amount: $${finalTotal} (Paid via Cash App $${OWNER_CONTACT.cashAppHandle})\nDelivery: ${deliveryMethod === 'shipping' ? 'Nationwide Shipping ($10 • 7-14 Business Days)' : 'Chicago Local Pickup'}\n\nCustomer Details:\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nAddress: ${formData.street}, ${formData.city}, ${formData.state} ${formData.zip}\nVehicle: ${formData.vehicleNotes}\n\nThank you!`
     );
     window.location.href = `mailto:${OWNER_CONTACT.email}?subject=${subject}&body=${body}`;
   };
@@ -110,7 +110,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
               Order via Cash App (${OWNER_CONTACT.cashAppHandle})
             </h3>
             <p className="text-xs text-zinc-400 mt-1">
-              $30 each pair • $15 Flat-Rate Nationwide Shipping or Free Chicago Local Pickup
+              $35.00 each pair • $10 Flat-Rate Shipping (7-14 Business Days) or Free Chicago Local Pickup
             </p>
           </div>
 
@@ -131,7 +131,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 {itemSummary}
               </div>
               <span className="text-xs text-zinc-400">
-                {totalPairs} {totalPairs === 1 ? 'pair' : 'pairs'} × $30 = <strong className="text-white">${bulbsSubtotal}</strong>
+                {totalPairs} {totalPairs === 1 ? 'pair' : 'pairs'} × $35 = <strong className="text-white">${bulbsSubtotal}</strong>
               </span>
             </div>
 
@@ -147,7 +147,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 }`}
               >
                 <Truck className="w-3.5 h-3.5" />
-                <span>Shipping (+$15)</span>
+                <span>Shipping (+$10 • 7-14 Days)</span>
               </button>
               <button
                 type="button"
@@ -171,9 +171,9 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
               <span className="font-mono font-bold">${bulbsSubtotal}.00</span>
             </div>
             <div className="flex justify-between text-zinc-300">
-              <span>Fulfillment ({deliveryMethod === 'shipping' ? 'Nationwide Express Shipping' : 'Chicago In-Person Pickup'}):</span>
+              <span>Fulfillment ({deliveryMethod === 'shipping' ? 'Nationwide Shipping (7-14 Business Days)' : 'Chicago In-Person Pickup'}):</span>
               <span className="font-mono font-bold text-sky-400">
-                {deliveryMethod === 'shipping' ? '+$15.00' : '$0.00 (Free)'}
+                {deliveryMethod === 'shipping' ? '+$10.00' : '$0.00 (Free)'}
               </span>
             </div>
             <div className="pt-2 border-t border-zinc-800 flex justify-between items-baseline text-sm">

@@ -35,7 +35,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
 
   const filteredBulbs = BULB_LISTINGS.filter((b) => {
     if (activeFilter === 'dual') return b.id === 'H4';
-    if (activeFilter === 'fog') return b.id === 'H3' || b.id === 'H8';
+    if (activeFilter === 'fog') return b.id === 'H3' || b.id === 'H8' || b.id === 'H12';
     if (activeFilter === 'single') return b.id !== 'H4';
     return true;
   });
@@ -49,13 +49,13 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
           <div className="space-y-2 max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/30">
               <Zap className="w-3.5 h-3.5" />
-              All Sockets In Stock — $30 Each Pair
+              All 8 Sockets In Stock — $35.00 Each Pair
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-white font-heading">
               Headlights Mini: 6000K Diamond White
             </h2>
             <p className="text-zinc-400 text-sm">
-              Separate listings for each socket size. All pairs are $30. Nationwide tracked shipping is $15 via Cash App, or pick up locally in Chicago.
+              Separate listings for each socket size (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11, and H12). All pairs are $35.00. Nationwide tracked shipping is $10 (7-14 Business Days) via Cash App, or pick up locally in Chicago.
             </p>
           </div>
 
@@ -63,58 +63,58 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
           <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center gap-4 shrink-0">
             <div>
               <div className="text-[10px] uppercase font-bold text-zinc-400">Fixed Rate</div>
-              <div className="text-2xl font-black text-white font-heading">$30 / Pair</div>
+              <div className="text-2xl font-black text-white font-heading">$35.00 / Pair</div>
             </div>
             <div className="h-8 w-px bg-zinc-800" />
             <div>
-              <div className="text-[10px] uppercase font-bold text-sky-400">Shipping</div>
-              <div className="text-sm font-bold text-zinc-200">+$15 via Cash App</div>
+              <div className="text-[10px] uppercase font-bold text-sky-400">Shipping (7-14 Days)</div>
+              <div className="text-sm font-bold text-zinc-200">+$10 via Cash App</div>
             </div>
           </div>
         </div>
 
-        {/* Filter Tabs - Horizontally scrollable on mobile */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:pb-0 scrollbar-none">
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 activeFilter === 'all'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterAll} (7)
+              {t.filterAll} (8 Sockets)
             </button>
             <button
               onClick={() => setActiveFilter('single')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 activeFilter === 'single'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterSingleBeam} (H1, H3, H7, 9005, H8, H11)
+              {t.filterSingleBeam} (H1, H3, H7, 9005, H8, H11, H12)
             </button>
             <button
               onClick={() => setActiveFilter('dual')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 activeFilter === 'dual'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterDualBeam} (H4)
+              {t.filterDualBeam} (H4 / 9003 / HB2)
             </button>
             <button
               onClick={() => setActiveFilter('fog')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 activeFilter === 'fog'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterFog} (H3, H8)
+              {t.filterFog} (H3, H8, H12)
             </button>
           </div>
 
@@ -156,7 +156,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
                     6000K Diamond White
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-500/30">
-                    $30 / Pair
+                    $35.00 / Pair
                   </span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white font-heading mt-2">
@@ -228,18 +228,18 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
               </p>
             </div>
 
-            {/* Modal Bottom Actions - Responsive for mobile */}
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-zinc-800">
+            {/* Modal Bottom Actions */}
+            <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800">
               <div className="text-xs text-zinc-400">
-                Price: <strong className="text-white text-base">$30</strong> (Pair of 2 bulbs)
+                Price: <strong className="text-white text-base">$35.00</strong> (Pair of 2 bulbs)
               </div>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-3">
                 <button
                   onClick={() => {
                     onAddToCart(modalBulb);
                     setModalBulb(null);
                   }}
-                  className="px-4 py-3 sm:py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors border border-zinc-700"
+                  className="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center gap-2 transition-colors border border-zinc-700"
                 >
                   <ShoppingBag className="w-4 h-4 text-sky-400" />
                   <span>{t.addToCart}</span>
@@ -249,7 +249,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
                     onQuickBuy(modalBulb);
                     setModalBulb(null);
                   }}
-                  className="px-5 py-3 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-lg"
+                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-lg"
                 >
                   <span>Order on Cash App</span>
                   <ExternalLink className="w-3.5 h-3.5" />
