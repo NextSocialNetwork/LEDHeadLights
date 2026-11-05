@@ -126,6 +126,11 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// Always serve static assets from public and src/assets for rock-solid image loading
+app.use('/src/assets', express.static(path.resolve(__dirname, 'src/assets')));
+app.use('/images', express.static(path.resolve(__dirname, 'public/images')));
+app.use(express.static(path.resolve(__dirname, 'public')));
+
 // Configure Vite middleware or production static files
 async function startServer() {
   if (process.env.NODE_ENV === 'production') {

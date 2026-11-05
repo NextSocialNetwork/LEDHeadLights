@@ -139,7 +139,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
       {!isOpen && (
         <button
           onClick={onToggle}
-          className="fixed bottom-6 right-6 z-40 p-3.5 sm:px-5 sm:py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-zinc-950 font-black text-sm shadow-2xl shadow-sky-500/40 flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 group"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 p-3 sm:px-5 sm:py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-zinc-950 font-black text-sm shadow-2xl shadow-sky-500/40 flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 group"
           title="Open AI Chat Support"
         >
           <div className="relative">
@@ -152,9 +152,9 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
         </button>
       )}
 
-      {/* Floating AI Chat Window when opened */}
+      {/* Floating AI Chat Window when opened - Fits mobile phone viewport cleanly */}
       {isOpen && (
-        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[95vw] sm:w-[420px] h-[580px] max-h-[85vh] card-glass rounded-2xl border border-sky-400/40 shadow-2xl flex flex-col justify-between overflow-hidden glow-6000k">
+        <div className="fixed bottom-3 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-[420px] h-[540px] max-h-[85vh] card-glass rounded-2xl border border-sky-400/40 shadow-2xl flex flex-col justify-between overflow-hidden glow-6000k">
           
           {/* Chat Window Header */}
           <div className="p-4 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
@@ -292,7 +292,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t.aiChatPlaceholder}
-                className="flex-1 px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
+                className="flex-1 px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 focus:border-sky-400 text-white text-sm sm:text-xs placeholder-zinc-500 focus:outline-none"
               />
               <button
                 type="submit"

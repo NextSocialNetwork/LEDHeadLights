@@ -67,8 +67,8 @@ export const BulbFinder: React.FC<BulbFinderProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Type your car (e.g. Honda Civic, Toyota Camry, Ford F-150, BMW 3, Subaru)..."
-              className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-white placeholder-zinc-500 text-sm transition-all"
+              placeholder="Type your car (e.g. Honda Civic, Toyota Camry, Ford F-150, BMW 3)..."
+              className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-white placeholder-zinc-500 text-base sm:text-sm transition-all"
             />
           </div>
         </div>

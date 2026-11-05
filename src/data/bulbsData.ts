@@ -1,4 +1,5 @@
 import { BulbListing, SocketType } from '../types';
+import headlightPairImg from '../assets/images/headlight_pair.jpg';
 
 export const BULB_LISTINGS: BulbListing[] = [
   {
@@ -17,7 +18,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Submersible Waterproof',
     popularVehicles: ['Acura Integra', 'Honda Civic (Selected Projectors)', 'BMW 3-Series High Beam/Fog', 'Audi A4/A6 High Beam', 'Subaru Legacy', 'Hyundai Veloster'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'Ultra-compact H1 Mini LED headlight bulb set delivering brilliant 6000K diamond crisp white illumination. 1:1 halogen filament design fits perfectly into projector lenses and tight high-beam or fog light housings with zero modification.',
       es: 'Juego de bombillas LED mini H1 6000K blanco diamante ultra brillante. Diseño 1:1 que cabe perfectamente en carcasas de proyectores y luces antiniebla sin modificaciones.',
@@ -93,7 +94,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Waterproof',
     popularVehicles: ['Audi A4/A6 Fog', 'Volkswagen Golf/Jetta Fog', 'Subaru Impreza/WRX Fog', 'Toyota 4Runner Fog', 'Nissan Frontier Fog', 'Mazda Miata Aux'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'Dedicated H3 Mini LED bulb pair with flexible silicone lead wire and compact base. Engineered specifically for auxiliary fog lights and tight bumper housings, slicing through mist, rain, and darkness with 6000K pure white beam.',
       es: 'Par de bombillas LED mini H3 con cable flexible y base compacta. Diseñado para luces antiniebla y parachoques estrechos, penetrando la niebla y lluvia con luz blanca 6000K.',
@@ -163,7 +164,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Waterproof',
     popularVehicles: ['Honda Civic (96-03)', 'Honda Fit', 'Toyota Tacoma (05-15)', 'Jeep Wrangler (TJ/JK)', 'Toyota Corolla (older)', 'Nissan Frontier', 'Subaru Forester (98-08)', 'Mazda Miata NA/NB', 'Motorcycles & ATVs'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'The legendary H4 / 9003 / HB2 dual-beam master bulb with high beam and low beam integrated into a single bulb with factory 3-prong connector. Built with anti-glare light shielding shields to project a laser-sharp low beam cutoff and devastating long-distance high beam.',
       es: 'La legendaria bombilla dual H4 / 9003 / HB2 con luces altas y bajas integradas con conector de 3 clavijas. Diseñada con escudo antideslumbrante para un corte nítido en bajas y gran alcance en altas.',
@@ -233,7 +234,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Waterproof',
     popularVehicles: ['BMW 3 & 5 Series', 'Mercedes-Benz C & E Class', 'Volkswagen Golf, Jetta, Passat', 'Audi A3, A4', 'Hyundai Elantra, Sonata', 'Kia Optima, Forte', 'Ford Fusion', 'Subaru Outback'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'The #1 European & domestic standard H7 Mini LED bulb. Engineered with an ultra-short collar base that locks cleanly into tricky German and domestic twist-lock retainers without needing bulky aftermarket adapter rings.',
       es: 'La bombilla LED mini H7 estándar europea y nacional. Base ultra compacta que encaja en retenedores alemanes y nacionales sin requerir adaptadores voluminosos.',
@@ -303,7 +304,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Waterproof',
     popularVehicles: ['Toyota Camry, RAV4, Highlander High Beam', 'Honda Accord, Civic, CR-V High Beam', 'Ford F-150, Explorer', 'Chevy Silverado, Tahoe', 'Jeep Grand Cherokee', 'Nissan Altima, Rogue', 'Subaru Outback, Forester'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'High-intensity 9005 / HB5 / HB3 long-distance LED beam designed to illuminate up to 1,200 feet ahead. Perfect upgrade for high-beam headlights and high-output fog lights on American and Japanese trucks, SUVs, and sedans.',
       es: 'Bombilla LED 9005 / HB5 / HB3 de largo alcance con proyección de hasta 350 metros. La mejora perfecta para luces altas y faros en camionetas, SUV y autos americanos y japoneses.',
@@ -373,7 +374,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Submersible Waterproof',
     popularVehicles: ['BMW Angel Eyes / Fog Lights (E90, E92, F10, F30)', 'Audi A3/A4/A5 Fog', 'Volkswagen GTI/Golf Fog', 'Mini Cooper Fog', 'Ford Mustang Fog', 'Jeep Renegade'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'H8 Mini 6000K LED bulb pair optimized for modern fog light housings, projector fog lamps, and BMW halo angel eye rings. Delivers pure icy diamond white brilliance to perfectly match modern LED daytime running lights.',
       es: 'Par de bombillas LED mini H8 6000K optimizadas para luces antiniebla y aros angel eyes de BMW. Brillo blanco hielo puro que combina con las luces diurnas LED modernas.',
@@ -443,7 +444,7 @@ export const BULB_LISTINGS: BulbListing[] = [
     waterproof: 'IP68 Submersible Waterproof',
     popularVehicles: ['Toyota Camry, Corolla, RAV4, Tacoma, Highlander', 'Honda Civic, Accord, CR-V, Pilot', 'Ford F-150, Explorer, Escape', 'Subaru Outback, Forester, Crosstrek, WRX', 'Chevy Silverado, Equinox, Malibu', 'Nissan Altima, Rogue, Sentra', 'Jeep Cherokee, Grand Cherokee'],
     inStock: true,
-    image: '/src/assets/images/headlight_pair.jpg',
+    image: headlightPairImg,
     description: {
       en: 'Our #1 top-selling automotive bulb socket in the country. The H11 Mini LED bulb fits millions of modern Toyota, Honda, Ford, Chevy, Nissan, and Subaru low beams and fog lights. Delivers immediate 300% night visibility transformation in 10 minutes flat.',
       es: 'Nuestra bombilla más vendida en todo el país. La bombilla LED mini H11 se adapta a millones de luces bajas y antiniebla de Toyota, Honda, Ford, Chevy, Nissan y Subaru. Transforma la visibilidad nocturna en solo 10 minutos.',

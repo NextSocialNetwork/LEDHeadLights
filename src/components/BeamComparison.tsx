@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Eye, Sun, Sparkles, Check, X, ShieldAlert } from 'lucide-react';
 import { LanguageCode } from '../types';
 import { TRANSLATIONS } from '../data/translations';
+import beamComparisonImg from '../assets/images/beam_comparison.jpg';
 
 interface BeamComparisonProps {
   currentLang: LanguageCode;
@@ -9,22 +10,21 @@ interface BeamComparisonProps {
 
 export const BeamComparison: React.FC<BeamComparisonProps> = ({ currentLang }) => {
   const t = TRANSLATIONS[currentLang];
-  const [sliderPos, setSliderPos] = useState<number>(50);
 
   return (
-    <section id="comparison" className="py-16 lg:py-24 border-b border-zinc-800 bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="comparison" className="py-12 sm:py-16 lg:py-24 border-b border-zinc-800 bg-zinc-950">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
+        <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/30">
             <Eye className="w-3.5 h-3.5" />
             Night Visibility Comparison
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white font-heading">
             {t.beamComparisonTitle}
           </h2>
-          <p className="text-zinc-400 text-sm sm:text-base">
+          <p className="text-zinc-400 text-xs sm:text-base">
             {t.beamComparisonSubtitle}
           </p>
         </div>
@@ -35,30 +35,37 @@ export const BeamComparison: React.FC<BeamComparisonProps> = ({ currentLang }) =
           {/* Main Comparison Image with Real Photography */}
           <div className="relative aspect-video w-full select-none overflow-hidden">
             <img
-              src="/src/assets/images/beam_comparison.jpg"
+              src={beamComparisonImg}
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (target.src !== '/images/beam_comparison.jpg') {
+                  target.src = '/images/beam_comparison.jpg';
+                }
+              }}
               alt="Night road comparison: Halogen 3200K vs LED 6000K"
               className="w-full h-full object-cover"
+              loading="lazy"
             />
 
             {/* Split Overlay Overlays */}
-            <div className="absolute top-4 left-4 bg-amber-950/80 backdrop-blur-md border border-amber-500/30 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-300">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-amber-950/85 backdrop-blur-md border border-amber-500/30 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold text-amber-300">
               {t.stockHalogen}
             </div>
 
-            <div className="absolute top-4 right-4 bg-sky-950/80 backdrop-blur-md border border-sky-400/40 px-3 py-1.5 rounded-lg text-xs font-bold text-sky-300 glow-6000k">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-sky-950/85 backdrop-blur-md border border-sky-400/40 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-bold text-sky-300 glow-6000k">
               {t.diamondLed}
             </div>
+          </div>
 
-            {/* Bottom info banner */}
-            <div className="absolute bottom-4 inset-x-4 bg-zinc-950/90 backdrop-blur-md p-3.5 rounded-xl border border-zinc-700/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-zinc-300">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                <span>3200K Halogen: 1,000 LM • 150 ft distance • High heat draw</span>
-              </div>
-              <div className="flex items-center gap-2 text-sky-300 font-semibold">
-                <span className="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse" />
-                <span>6000K Mini LED: 8,000 LM/bulb • 1,200 ft distance • 12K RPM Turbo Cool</span>
-              </div>
+          {/* Bottom info banner - Positioned below image on mobile for full photo visibility */}
+          <div className="p-3 sm:p-3.5 bg-zinc-950/95 border-t border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 text-zinc-300 text-[11px] sm:text-xs">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0" />
+              <span>3200K Halogen: 1,000 LM • 150 ft range • Weak contrast</span>
+            </div>
+            <div className="flex items-center gap-2 text-sky-300 font-semibold text-[11px] sm:text-xs">
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse shrink-0" />
+              <span>6000K Mini LED: 8,000 LM/bulb • 1,200 ft range • 12K RPM Cool</span>
             </div>
           </div>
         </div>

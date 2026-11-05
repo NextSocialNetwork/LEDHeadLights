@@ -92,11 +92,11 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-3xl card-glass rounded-2xl border border-zinc-700 shadow-2xl p-6 sm:p-8 my-8 space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-3xl card-glass rounded-2xl border border-zinc-700 shadow-2xl p-4 sm:p-6 md:p-8 my-auto max-h-[92vh] overflow-y-auto space-y-4 sm:space-y-6">
         
         {/* Modal Header */}
-        <div className="flex items-start justify-between pb-4 border-b border-zinc-800">
+        <div className="flex items-start justify-between pb-3 sm:pb-4 border-b border-zinc-800">
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs">
@@ -106,7 +106,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 6000K Mini LEDs
               </span>
             </div>
-            <h3 className="text-2xl font-black text-white font-heading mt-2">
+            <h3 className="text-xl sm:text-2xl font-black text-white font-heading mt-2">
               Order via Cash App (${OWNER_CONTACT.cashAppHandle})
             </h3>
             <p className="text-xs text-zinc-400 mt-1">
@@ -116,15 +116,15 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors border border-zinc-800"
+            className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors border border-zinc-800 shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Step 1: Order Summary & Fulfillment Choice */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-zinc-900/90 border border-zinc-800">
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl bg-zinc-900/90 border border-zinc-800">
             <div>
               <span className="text-[10px] uppercase font-bold text-zinc-400">Selected Bulbs</span>
               <div className="text-base font-bold text-white mt-0.5">
@@ -135,12 +135,12 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
               </span>
             </div>
 
-            {/* Delivery Method Toggle */}
-            <div className="flex rounded-lg bg-zinc-950 p-1 border border-zinc-800">
+            {/* Delivery Method Toggle - Full width on mobile */}
+            <div className="flex w-full sm:w-auto rounded-lg bg-zinc-950 p-1 border border-zinc-800">
               <button
                 type="button"
                 onClick={() => setDeliveryMethod('shipping')}
-                className={`px-3 py-2 rounded-md text-xs font-bold flex items-center gap-1.5 transition-all ${
+                className={`flex-1 sm:flex-initial justify-center px-3 py-2 rounded-md text-xs font-bold flex items-center gap-1.5 transition-all ${
                   deliveryMethod === 'shipping'
                     ? 'bg-sky-500 text-zinc-950 shadow'
                     : 'text-zinc-400 hover:text-white'
@@ -152,7 +152,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
               <button
                 type="button"
                 onClick={() => setDeliveryMethod('pickup')}
-                className={`px-3 py-2 rounded-md text-xs font-bold flex items-center gap-1.5 transition-all ${
+                className={`flex-1 sm:flex-initial justify-center px-3 py-2 rounded-md text-xs font-bold flex items-center gap-1.5 transition-all ${
                   deliveryMethod === 'pickup'
                     ? 'bg-emerald-500 text-zinc-950 shadow'
                     : 'text-zinc-400 hover:text-white'
@@ -165,7 +165,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
           </div>
 
           {/* Pricing Calculation Breakdown */}
-          <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-2 text-xs">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-1.5 sm:space-y-2 text-xs">
             <div className="flex justify-between text-zinc-300">
               <span>LED Headlight Bulbs Subtotal ({totalPairs} pair{totalPairs > 1 ? 's' : ''}):</span>
               <span className="font-mono font-bold">${bulbsSubtotal}.00</span>
@@ -178,7 +178,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
             </div>
             <div className="pt-2 border-t border-zinc-800 flex justify-between items-baseline text-sm">
               <span className="font-bold text-white uppercase tracking-wider">Total Due via Cash App:</span>
-              <span className="text-2xl font-black text-emerald-400 font-mono">
+              <span className="text-xl sm:text-2xl font-black text-emerald-400 font-mono">
                 ${finalTotal}.00
               </span>
             </div>
@@ -186,15 +186,17 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
         </div>
 
         {/* Step 2: Cash App Link & Direct Pay Button */}
-        <div className="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-3.5 sm:space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
             <div className="space-y-1">
               <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 flex items-center gap-1.5">
                 <Check className="w-4 h-4 text-emerald-400" />
                 Step 1: Send ${finalTotal} on Cash App
               </span>
-              <div className="text-xl sm:text-2xl font-black text-white font-mono flex items-center gap-3">
-                <span>https://cash.app/${OWNER_CONTACT.cashAppHandle}</span>
+              <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                <span className="text-xl sm:text-2xl font-black text-white font-mono break-all">
+                  ${OWNER_CONTACT.cashAppHandle}
+                </span>
                 <button
                   type="button"
                   onClick={handleCopyCashTag}
@@ -214,7 +216,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
               href={`${OWNER_CONTACT.cashAppUrl}/${finalTotal}`}
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-sm tracking-wide transition-all shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-2 shrink-0 group"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-sm tracking-wide transition-all shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-2 shrink-0 group"
             >
               <span>Pay ${finalTotal} on Cash App</span>
               <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -224,7 +226,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
 
         {/* Step 3: Shipping & Contact Form */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
               Step 2: Enter Delivery Details for Tracking & Receipt
             </h4>
@@ -233,7 +235,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             <input
               type="text"
               placeholder={t.orderFormName + ' *'}
@@ -251,7 +253,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
           </div>
 
           {deliveryMethod === 'shipping' && (
-            <div className="space-y-3 pt-1">
+            <div className="space-y-2.5 sm:space-y-3 pt-1">
               <input
                 type="text"
                 placeholder={t.orderFormAddress + ' *'}
@@ -259,7 +261,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 onChange={(e) => setFormData({ ...formData, street: e.target.value })}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
               />
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                 <input
                   type="text"
                   placeholder={t.orderFormCity}

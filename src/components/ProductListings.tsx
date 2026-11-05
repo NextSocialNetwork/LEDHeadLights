@@ -73,22 +73,22 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
           </div>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
-          <div className="flex flex-wrap gap-2">
+        {/* Filter Tabs - Horizontally scrollable on mobile */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
+          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:pb-0 scrollbar-none">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'all'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterAll} (7 Sockets)
+              {t.filterAll} (7)
             </button>
             <button
               onClick={() => setActiveFilter('single')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'single'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
@@ -98,23 +98,23 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
             </button>
             <button
               onClick={() => setActiveFilter('dual')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'dual'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterDualBeam} (H4 / 9003 / HB2)
+              {t.filterDualBeam} (H4)
             </button>
             <button
               onClick={() => setActiveFilter('fog')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'fog'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterFog} (H3 & H8)
+              {t.filterFog} (H3, H8)
             </button>
           </div>
 
@@ -228,18 +228,18 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
               </p>
             </div>
 
-            {/* Modal Bottom Actions */}
-            <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800">
+            {/* Modal Bottom Actions - Responsive for mobile */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-zinc-800">
               <div className="text-xs text-zinc-400">
                 Price: <strong className="text-white text-base">$30</strong> (Pair of 2 bulbs)
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                 <button
                   onClick={() => {
                     onAddToCart(modalBulb);
                     setModalBulb(null);
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center gap-2 transition-colors border border-zinc-700"
+                  className="px-4 py-3 sm:py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors border border-zinc-700"
                 >
                   <ShoppingBag className="w-4 h-4 text-sky-400" />
                   <span>{t.addToCart}</span>
@@ -249,7 +249,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
                     onQuickBuy(modalBulb);
                     setModalBulb(null);
                   }}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-lg"
+                  className="px-5 py-3 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-lg"
                 >
                   <span>Order on Cash App</span>
                   <ExternalLink className="w-3.5 h-3.5" />

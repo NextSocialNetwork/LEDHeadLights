@@ -51,8 +51,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="relative aspect-4/3 w-full overflow-hidden bg-zinc-900 group">
         <img
           src={bulb.image}
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== '/images/headlight_pair.jpg') {
+              target.src = '/images/headlight_pair.jpg';
+            }
+          }}
           alt={bulb.name}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
         />
 
         {/* Top Badges */}
@@ -83,7 +90,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Card Content */}
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
         
         {/* Title and Short description */}
         <div className="space-y-1.5">
