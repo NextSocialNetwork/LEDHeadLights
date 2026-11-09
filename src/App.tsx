@@ -10,21 +10,20 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductListings } from './components/ProductListings';
 import { BulbFinder } from './components/BulbFinder';
-import { CustomerReviews } from './components/CustomerReviews';
 import { BeamComparison } from './components/BeamComparison';
 import { SpecsOverview } from './components/SpecsOverview';
+import { CustomerReviews } from './components/CustomerReviews';
+import { BlogSection } from './components/BlogSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
 import { CashAppOrderModal } from './components/CashAppOrderModal';
 import { AiChatSupport } from './components/AiChatSupport';
+import { RepeatBuyerLoyalty } from './components/RepeatBuyerLoyalty';
 
 export default function App() {
   const [currentLang, setCurrentLang] = useState<LanguageCode>('en');
-  const [cart, setCart] = useState<CartItem[]>([
-    // Initialize with H11 (#1 best seller) as a default cart sample
-    { bulb: BULB_LISTINGS.find((b) => b.id === 'H11') || BULB_LISTINGS[6], quantity: 1 },
-  ]);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCashAppModalOpen, setIsCashAppModalOpen] = useState(false);
   const [isAiChatOpen, setIsAiChatOpen] = useState(false);
@@ -101,7 +100,7 @@ export default function App() {
           onOpenCashAppModal={() => setIsCashAppModalOpen(true)}
         />
 
-        {/* Separate Listings for H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11 ($35.00 each pair) */}
+        {/* Separate Listings for H1, H3, H4/9003/HB2, H7, 9005/HB5, 9006/HB4, H8, H11 ($40 flat each pair • FREE Shipping) */}
         <ProductListings
           currentLang={currentLang}
           selectedSocketId={selectedSocketId}
@@ -116,14 +115,31 @@ export default function App() {
           onOpenAiChat={() => setIsAiChatOpen(true)}
         />
 
-        {/* 258 5-Star Reviews from Drivers Who Switched from Halogen to LED */}
-        <CustomerReviews currentLang={currentLang} />
-
         {/* 6000K vs Stock Halogen Night Road Comparison */}
         <BeamComparison currentLang={currentLang} />
 
         {/* 1:1 Mini Technology & Engineering Specs */}
         <SpecsOverview currentLang={currentLang} />
+
+        {/* 289 5-Star Reviews from Halogen Switchers */}
+        <CustomerReviews
+          currentLang={currentLang}
+          onOpenCashAppModal={() => setIsCashAppModalOpen(true)}
+          onOpenAiChat={() => setIsAiChatOpen(true)}
+        />
+
+        {/* Repeat Buyer VIP Loyalty Program ($5 OFF & Free Bonus Gift) */}
+        <RepeatBuyerLoyalty
+          currentLang={currentLang}
+          onOpenCashAppModal={() => setIsCashAppModalOpen(true)}
+        />
+
+        {/* 785 Google SEO Blog Articles & Vehicle Fitment Tutorials */}
+        <BlogSection
+          currentLang={currentLang}
+          onOpenCashAppModal={() => setIsCashAppModalOpen(true)}
+          onOpenAiChat={() => setIsAiChatOpen(true)}
+        />
 
         {/* FAQ Section */}
         <FaqSection

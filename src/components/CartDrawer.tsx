@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   Trash2, 
@@ -9,11 +9,20 @@ import {
   MapPin, 
   ExternalLink, 
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Award,
+  Gift
 } from 'lucide-react';
 import { CartItem, LanguageCode } from '../types';
 import { TRANSLATIONS } from '../data/translations';
 import { OWNER_CONTACT } from '../data/bulbsData';
+import { 
+  getLoyaltyState, 
+  REPEAT_BUYER_DISCOUNT_PER_PAIR, 
+  REPEAT_BUYER_BONUS_ITEM,
+  LoyaltyState, 
+  subscribeToLoyaltyUpdates 
+} from '../utils/loyaltyStorage';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -35,10 +44,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onProceedToCheckout,
 }) => {
   const t = TRANSLATIONS[currentLang];
+  const [loyalty, setLoyalty] = useState<LoyaltyState>(getLoyaltyState());
+
+  useEffect(() => {
+    setLoyalty(getLoyaltyState());
+    return subscribeToLoyaltyUpdates(setLoyalty);
+  }, []);
+
   if (!isOpen) return null;
 
   const totalPairs = cart.reduce((sum, item) => sum + item.quantity, 0);
   const bulbsSubtotal = cart.reduce((sum, item) => sum + item.quantity * item.bulb.price, 0);
+  const loyaltyDiscount = loyalty.isRepeatBuyer ? totalPairs * REPEAT_BUYER_DISCOUNT_PER_PAIR : 0;
+  const finalTotal = Math.max(0, bulbsSubtotal - loyaltyDiscount);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -79,7 +97,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
                 <div className="space-y-1">
                   <p className="text-zinc-300 font-semibold">{t.cartEmpty}</p>
-                  <p className="text-xs text-zinc-500">All Mini LED bulb sockets are $35.00 per pair.</p>
+                  <p className="text-xs text-zinc-500">All Mini LED bulb sockets are $40 flat per pair with FREE shipping.</p>
                 </div>
                 <button
                   onClick={onClose}
@@ -127,7 +145,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <div className="flex items-center justify-between pt-2">
                       <div className="text-sm font-black text-white font-mono">
                         ${item.bulb.price * item.quantity}
-                        <span className="text-[10px] text-zinc-500 font-sans ml-1">($35.00/pair)</span>
+                        <span className="text-[10px] text-zinc-500 font-sans ml-1">($40 flat/pair)</span>
                       </div>
 
                       {/* Quantity Controls */}
@@ -161,12 +179,48 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <div className="p-6 border-t border-zinc-800 space-y-4 bg-zinc-900/50">
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between text-zinc-300">
-                  <span>{t.subtotal}:</span>
+                  <span>{t.subtotal} ({totalPairs} pair{totalPairs > 1 ? 's' : ''} × $40):</span>
                   <span className="font-mono font-bold text-white">${bulbsSubtotal}.00</span>
                 </div>
-                <div className="flex justify-between text-zinc-400 text-[11px]">
-                  <span>Shipping via Cash App:</span>
-                  <span className="text-sky-400 font-medium">+$10 (7-14 Business Days or $0 Chicago pickup)</span>
+
+                {loyalty.isRepeatBuyer && (
+                  <>
+                    <div className="flex justify-between text-amber-300 font-bold bg-amber-500/15 p-2 rounded-lg border border-amber-500/30">
+                      <span className="flex items-center gap-1.5">
+                        <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                        VIP Repeat Buyer Discount (-${REPEAT_BUYER_DISCOUNT_PER_PAIR}/pr):
+                      </span>
+                      <span className="font-mono">-${loyaltyDiscount}.00</span>
+                    </div>
+                    <div className="flex justify-between text-amber-300 text-[11px] px-1">
+                      <span className="flex items-center gap-1.5 font-semibold">
+                        <Gift className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        Bonus Returning Driver Gift:
+                      </span>
+                      <span className="font-mono font-bold text-emerald-400 uppercase">FREE T10 LEDs Included</span>
+                    </div>
+                  </>
+                )}
+
+                <div className="flex justify-between text-emerald-400 text-xs font-bold">
+                  <span>Tracked Nationwide Shipping:</span>
+                  <span className="font-mono uppercase">FREE ($0.00)</span>
+                </div>
+                <div className="flex justify-between text-sky-400 text-[11px] font-semibold">
+                  <span>Satisfaction Guarantee & Free Replacement:</span>
+                  <span className="font-mono uppercase">100% INCLUDED</span>
+                </div>
+                <div className="flex justify-between text-white font-bold text-sm pt-2 border-t border-zinc-800">
+                  <div>
+                    <span>Total Due via Cash App:</span>
+                    {loyalty.isRepeatBuyer && (
+                      <span className="text-[10px] text-emerald-400 block font-normal font-sans">Repeat Driver Pricing: $35/pair</span>
+                    )}
+                  </div>
+                  <span className="text-emerald-400 font-mono font-black text-lg">${finalTotal}.00</span>
+                </div>
+                <div className="text-[10px] text-zinc-400 text-center">
+                  Free nationwide tracked shipping or local Chicago pickup ($40 flat)
                 </div>
               </div>
 
@@ -178,9 +232,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
+              <div className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-[11px] text-zinc-300 text-center space-y-0.5">
+                <span className="text-amber-400 font-bold block">Fast & Smooth Ordering:</span>
+                <span>Pay via Cash App and send confirmation screenshot & shipping address via Email, WhatsApp, or Text for immediate shipping dispatch!</span>
+              </div>
+
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-zinc-400">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Orders confirmed directly by Mantas: (312) 385-9229</span>
+                <span>Orders confirmed directly by Matt: (312) 385-9229</span>
               </div>
             </div>
           )}

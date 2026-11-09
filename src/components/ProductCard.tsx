@@ -63,18 +63,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         />
 
         {/* Top Badges */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
+        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 max-w-[70%]">
           <span className="px-2.5 py-1 rounded-md text-[11px] font-black font-mono bg-sky-500 text-zinc-950 shadow-md">
             {bulb.socketCode}
           </span>
           <span className="px-2 py-1 rounded-md text-[10px] font-bold bg-zinc-950/80 backdrop-blur-md text-sky-300 border border-sky-500/30">
             6000K
           </span>
+          {bulb.variantNote && (
+            <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 backdrop-blur-md">
+              {bulb.variantNote}
+            </span>
+          )}
         </div>
 
         <div className="absolute top-3 right-3 z-10">
           <span className="px-2 py-1 rounded-md text-[10px] font-bold bg-emerald-950/90 backdrop-blur-md text-emerald-400 border border-emerald-500/40">
-            $35.00 / Pair
+            $40 Flat • Free Shipping
           </span>
         </div>
 
@@ -100,7 +105,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </h3>
           </div>
           <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-            {bulb.description[currentLang]}
+            {bulb.description[currentLang] || bulb.description.en}
           </p>
         </div>
 
@@ -116,23 +121,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-            <span className="truncate">Canbus ready, zero error codes</span>
+            <span className="truncate">100% Satisfaction Guarantee • Free Replacement</span>
           </div>
         </div>
 
         {/* Price & Shipping Breakdown Callout */}
         <div className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800/90 flex items-center justify-between">
           <div>
-            <div className="text-[10px] uppercase font-bold text-zinc-400">Pair Price</div>
+            <div className="text-[10px] uppercase font-bold text-zinc-400">Flat Pair Price</div>
             <div className="text-2xl font-black text-white font-heading leading-tight">
-              $35.00
-              <span className="text-xs font-normal text-zinc-400 ml-1">/ pair</span>
+              $40
+              <span className="text-xs font-normal text-zinc-400 ml-1">flat</span>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[10px] uppercase font-bold text-sky-400">+ $10 Shipping (7-14 Days)</div>
+            <div className="text-[10px] uppercase font-bold text-emerald-400">FREE Tracked Shipping</div>
             <div className="text-[11px] text-zinc-400">
-              via Cash App <span className="text-emerald-400 font-mono">${OWNER_CONTACT.cashAppHandle}</span>
+              Free Replacement • Cash App <span className="text-emerald-400 font-mono">${OWNER_CONTACT.cashAppHandle}</span>
             </div>
           </div>
         </div>

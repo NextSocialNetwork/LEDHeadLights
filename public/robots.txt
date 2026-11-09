@@ -1,0 +1,6 @@
+# robots.txt for https://ledheadlights.org/
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://ledheadlights.org/sitemap.xml

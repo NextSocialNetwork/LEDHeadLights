@@ -21,15 +21,19 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
   const faqs = [
     {
       q: 'How much are the bulbs and what does shipping cost?',
-      a: `All bulb sockets (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11, and H12) are exactly **$35.00 each pair** (2 bulbs included). Flat-rate nationwide tracked shipping (7-14 business days) is **$10**. Total for one pair shipped is **$45.00**. Payment for shipping orders is sent directly via **Cash App** to **https://cash.app/$muahz26** ($muahz26).`,
+      a: `All bulb sockets (H1, H3 Mini, Aftermarket H3 COB Kit, H4/9003/HB2, H7 Direct Plug, H7 with Wire Extension, 9005/HB5, 9006/HB4, H8, H11) are exactly **$40 flat each pair** (2 bulbs included). Tracked nationwide shipping (7-14 Business Days) is **100% FREE!** Total for 1 pair is **$40 flat** ($0 shipping); total for 2 pairs is **$80 flat**. Every purchase comes backed by our **100% Customer Satisfaction Guarantee** and **Free Replacement Guarantee**! Payment is sent directly via **Cash App** to **https://cash.app/$muahz26** ($muahz26).`,
     },
     {
       q: 'Can I pick them up locally in Chicago, IL?',
-      a: `**Yes!** If you are in the Chicago area, local in-person pickup is available for **$35.00 per pair with $0 shipping**. You can pay with cash or Cash App upon pickup. Contact Mantas directly at **+1 (312) 385 - 9229** (Call or Text) or email **MantasChicago36@Gmail.Com** to coordinate pickup location and time.`,
+      a: `**Yes!** If you are in the Chicago area, local in-person pickup is available for **$40 flat per pair** (or enjoy free tracked shipping straight to your address!). You can pay with cash or Cash App upon pickup. Contact Matt directly at **+1 (312) 385 - 9229** (Call or Text), WhatsApp at **https://wa.me/13123859229**, or email **LEDHeadLightsChicago@Gmail.Com** to coordinate pickup location and time.`,
     },
     {
       q: 'How do I pay and place my order on Cash App?',
-      a: `1. Open Cash App and send the total amount ($45 for 1 pair shipped, $80 for 2 pairs shipped) to **https://cash.app/$muahz26** (CashTag: **$muahz26**).\n2. In the Cash App note/memo, write your **Name, Shipping Address, and the Bulb Socket(s)** you need (e.g. "John Smith, 1x H11, 123 Main St, Chicago IL 60601").\n3. You can also text or call Mantas at **(312) 385-9229** or email **MantasChicago36@Gmail.Com** with your order info for immediate tracking confirmation!`,
+      a: `1. Open Cash App and send the total amount ($40 flat for 1 pair, $80 flat for 2 pairs) to **https://cash.app/$muahz26** (CashTag: **$muahz26**).\n2. After completing your payment, send your details via Email to **LEDHeadLightsChicago@Gmail.Com**, via WhatsApp at **https://wa.me/13123859229**, or text to **(312) 385-9229** with:\n   • **Full Name**\n   • **Shipping Address**\n   • **Cash App Username** (from where payment was made)\n   • **Phone Number**\n   • **Screenshot & Confirmation Number** given on our website\n3. This information is required for immediate order Shipping Processing and tracking dispatch. Purchasing is fast and smooth with no long forms! Every pair includes our 100% Customer Satisfaction Guarantee and Free Replacement!`,
+    },
+    {
+      q: 'What is the Customer Satisfaction Guarantee & Free Replacement?',
+      a: `Every bulb pair is backed by our **100% Customer Satisfaction Guarantee & Free Replacement Guarantee**. If your bulbs arrive damaged during transit, develop a defect, or if you are not completely satisfied with fitment or brightness, simply message us on WhatsApp (**https://wa.me/13123859229**), text **+1 (312) 385 - 9229**, or email **LEDHeadLightsChicago@Gmail.Com** with your Confirmation Number, and we will issue a free replacement pair promptly.`,
     },
     {
       q: 'What makes 6000K Diamond White the best color temperature?',
@@ -104,7 +108,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
           <div className="space-y-1">
             <h4 className="text-base font-bold text-white">Still have questions about your car or order?</h4>
             <p className="text-xs text-zinc-400">
-              Ask our AI assistant right now or call/text Mantas directly at (312) 385-9229.
+              Ask our AI assistant right now or call/text Matt directly at (312) 385-9229.
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">

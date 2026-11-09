@@ -34,7 +34,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hello! I am your **LED Headlights AI Support Specialist** for **LEDHeadlights.Org**. \n\nI can help you:\n• Find the exact bulb socket (H1, H3, H4, H7, 9005, H8, H11) for your vehicle\n• Explain our **6000K Diamond White Mini** technology & 1:1 fitment\n• Help you order via **Cash App ($muahz26)** for $35.00/pair + $10 shipping (7-14 Business Days) or Chicago pickup!\n\nWhat car do you drive?`,
+      content: `Hello! I am your **LED Headlights AI Support Specialist** for **LEDHeadlights.Org**. \n\nI can help you:\n• Find the exact bulb socket (H1, H3, H4, H7, 9005, 9006, H8, H11) for your vehicle\n• Explain our **6000K Diamond White Mini** technology & 1:1 fitment\n• Help you order for **$40 flat per pair** with **100% FREE Tracked Shipping**, **Customer Satisfaction Guarantee**, and **Free Replacement** via Cash App ($muahz26) or Chicago pickup!\n• Connect with Matt on WhatsApp: https://wa.me/13123859229\n\nWhat car do you drive?`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -96,7 +96,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `I'm having trouble connecting to the network right now, but you can always reach Mantas directly at **${OWNER_CONTACT.phone}** (Call or Text) or email **${OWNER_CONTACT.email}**! \n\nAll bulbs (H1, H3, H4, H7, 9005, H8, H11) are **$35.00 per pair** + **$10 shipping (7-14 Business Days)** via Cash App **$muahz26**, or free local pickup in Chicago.`,
+        content: `I'm having trouble connecting to the network right now, but you can always reach Matt directly at **${OWNER_CONTACT.phone}** (Call or Text), WhatsApp (**${OWNER_CONTACT.whatsAppUrl}**), or email **${OWNER_CONTACT.orderEmail}**! \n\nAll bulbs (H1, H3, H4, H7, 9005, 9006, H8, H11) are **$40 flat per pair** with **100% FREE Tracked Shipping**, **Customer Satisfaction Guarantee**, and **Free Replacement** via Cash App **$muahz26**, or pickup in Chicago. After payment, send your Name, Address, Cash App username & Confirmation Screenshot to **${OWNER_CONTACT.orderEmail}** or WhatsApp for instant shipping processing!`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages(prev => [...prev, errorMsg]);
@@ -172,7 +172,7 @@ export const AiChatSupport: React.FC<AiChatSupportProps> = ({
                   </span>
                 </div>
                 <p className="text-[11px] text-zinc-400">
-                  LEDHeadlights.Org • Mantas ({OWNER_CONTACT.phone})
+                  LEDHeadlights.Org • Matt ({OWNER_CONTACT.phone})
                 </p>
               </div>
             </div>

@@ -9,7 +9,8 @@ import {
   Truck, 
   MapPin, 
   CheckCircle2, 
-  ExternalLink 
+  ExternalLink,
+  ShieldCheck
 } from 'lucide-react';
 import { BulbListing, LanguageCode, SocketType } from '../types';
 import { BULB_LISTINGS, OWNER_CONTACT } from '../data/bulbsData';
@@ -35,7 +36,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
 
   const filteredBulbs = BULB_LISTINGS.filter((b) => {
     if (activeFilter === 'dual') return b.id === 'H4';
-    if (activeFilter === 'fog') return b.id === 'H3' || b.id === 'H8' || b.id === 'H12';
+    if (activeFilter === 'fog') return b.id === 'H3' || b.id === 'H3-COB' || b.id === 'H8';
     if (activeFilter === 'single') return b.id !== 'H4';
     return true;
   });
@@ -47,74 +48,74 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/30">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
               <Zap className="w-3.5 h-3.5" />
-              All 8 Sockets In Stock — $35.00 Each Pair
+              All Sockets In Stock — $40 Flat Each Pair • FREE Shipping
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-white font-heading">
               Headlights Mini: 6000K Diamond White
             </h2>
             <p className="text-zinc-400 text-sm">
-              Separate listings for each socket size (H1, H3, H4/9003/HB2, H7, 9005/HB5, H8, H11, and H12). All pairs are $35.00. Nationwide tracked shipping is $10 (7-14 Business Days) via Cash App, or pick up locally in Chicago.
+              All models are $40 flat per pair with 100% FREE nationwide tracked shipping included (7-14 Business Days), Customer Satisfaction Guarantee, and Free Replacement! Pay easily with Cash App (<strong className="text-emerald-400 font-mono">${OWNER_CONTACT.cashAppHandle}</strong>) or pick up locally in Chicago.
             </p>
           </div>
 
           {/* Pricing Highlight Pill */}
           <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center gap-4 shrink-0">
             <div>
-              <div className="text-[10px] uppercase font-bold text-zinc-400">Fixed Rate</div>
-              <div className="text-2xl font-black text-white font-heading">$35.00 / Pair</div>
+              <div className="text-[10px] uppercase font-bold text-zinc-400">Flat Rate</div>
+              <div className="text-2xl font-black text-white font-heading">$40 Flat</div>
             </div>
             <div className="h-8 w-px bg-zinc-800" />
             <div>
-              <div className="text-[10px] uppercase font-bold text-sky-400">Shipping (7-14 Days)</div>
-              <div className="text-sm font-bold text-zinc-200">+$10 via Cash App</div>
+              <div className="text-[10px] uppercase font-bold text-emerald-400">Tracked Shipping</div>
+              <div className="text-sm font-bold text-zinc-200">100% FREE Included</div>
             </div>
           </div>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
-          <div className="flex flex-wrap gap-2">
+        {/* Filter Tabs - Horizontally scrollable on mobile */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
+          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:pb-0 scrollbar-none">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'all'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterAll} (8 Sockets)
+              {t.filterAll} ({BULB_LISTINGS.length})
             </button>
             <button
               onClick={() => setActiveFilter('single')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'single'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterSingleBeam} (H1, H3, H7, 9005, H8, H11, H12)
+              {t.filterSingleBeam} (H1, H3, H7 Direct, H7 Wire, 9005, 9006, H8, H11)
             </button>
             <button
               onClick={() => setActiveFilter('dual')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'dual'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterDualBeam} (H4 / 9003 / HB2)
+              {t.filterDualBeam} (H4)
             </button>
             <button
               onClick={() => setActiveFilter('fog')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                 activeFilter === 'fog'
                   ? 'bg-sky-500 text-zinc-950 shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
               }`}
             >
-              {t.filterFog} (H3, H8, H12)
+              {t.filterFog} (H3, H8)
             </button>
           </div>
 
@@ -156,7 +157,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
                     6000K Diamond White
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-500/30">
-                    $35.00 / Pair
+                    $40 Flat / Pair (Free Shipping)
                   </span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white font-heading mt-2">
@@ -172,9 +173,30 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
               </button>
             </div>
 
+            {/* Modal Image */}
+            <div className="relative aspect-16/9 sm:aspect-21/9 w-full rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+              <img
+                src={modalBulb.image}
+                alt={modalBulb.name}
+                className="w-full h-full object-contain p-2"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== '/images/headlight_pair.jpg') {
+                    target.src = '/images/headlight_pair.jpg';
+                  }
+                }}
+              />
+            </div>
+
+            {/* Satisfaction Guarantee & Free Replacement Banner Below Photo */}
+            <div className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-xs text-emerald-300">
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="font-bold tracking-wide">Customer Satisfaction Guarantee • Free Replacement Included</span>
+            </div>
+
             {/* Description */}
             <p className="text-sm text-zinc-300 leading-relaxed">
-              {modalBulb.description[currentLang]}
+              {modalBulb.description[currentLang] || modalBulb.description.en}
             </p>
 
             {/* Technical Specifications Grid */}
@@ -211,7 +233,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
                 Key Engineering Features:
               </h4>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300">
-                {modalBulb.features[currentLang].map((feat, idx) => (
+                {(modalBulb.features[currentLang] || modalBulb.features.en).map((feat, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
                     <span>{feat}</span>
@@ -228,18 +250,18 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
               </p>
             </div>
 
-            {/* Modal Bottom Actions */}
-            <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800">
+            {/* Modal Bottom Actions - Responsive for mobile */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-zinc-800">
               <div className="text-xs text-zinc-400">
-                Price: <strong className="text-white text-base">$35.00</strong> (Pair of 2 bulbs)
+                Price: <strong className="text-white text-base">$40 Flat</strong> (Pair of 2 bulbs • FREE Tracked Shipping)
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                 <button
                   onClick={() => {
                     onAddToCart(modalBulb);
                     setModalBulb(null);
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center gap-2 transition-colors border border-zinc-700"
+                  className="px-4 py-3 sm:py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors border border-zinc-700"
                 >
                   <ShoppingBag className="w-4 h-4 text-sky-400" />
                   <span>{t.addToCart}</span>
@@ -249,7 +271,7 @@ export const ProductListings: React.FC<ProductListingsProps> = ({
                     onQuickBuy(modalBulb);
                     setModalBulb(null);
                   }}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-lg"
+                  className="px-5 py-3 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-lg"
                 >
                   <span>Order on Cash App</span>
                   <ExternalLink className="w-3.5 h-3.5" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   ExternalLink, 
@@ -9,13 +9,27 @@ import {
   Truck, 
   MapPin, 
   ShieldCheck, 
-  QrCode, 
   AlertCircle,
-  MessageSquare
+  MessageSquare,
+  Camera,
+  FileCheck2,
+  Send,
+  Sparkles,
+  Zap,
+  Award,
+  Gift
 } from 'lucide-react';
-import { BulbListing, CartItem, LanguageCode, OrderForm } from '../types';
+import { CartItem, LanguageCode } from '../types';
 import { TRANSLATIONS } from '../data/translations';
 import { OWNER_CONTACT } from '../data/bulbsData';
+import { 
+  getLoyaltyState, 
+  recordLoyaltyOrder, 
+  REPEAT_BUYER_DISCOUNT_PER_PAIR, 
+  REPEAT_BUYER_BONUS_ITEM,
+  LoyaltyState, 
+  subscribeToLoyaltyUpdates 
+} from '../utils/loyaltyStorage';
 
 interface CashAppOrderModalProps {
   isOpen: boolean;
@@ -33,41 +47,89 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
   const t = TRANSLATIONS[currentLang];
   const [deliveryMethod, setDeliveryMethod] = useState<'shipping' | 'pickup'>('shipping');
   const [copiedCashTag, setCopiedCashTag] = useState(false);
+  const [copiedConfirmation, setCopiedConfirmation] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedFullTemplate, setCopiedFullTemplate] = useState(false);
   const [copiedMemo, setCopiedMemo] = useState(false);
+  const [loyalty, setLoyalty] = useState<LoyaltyState>(getLoyaltyState());
 
-  const [formData, setFormData] = useState<OrderForm>({
-    name: '',
-    phone: '',
-    email: '',
-    street: '',
-    city: '',
-    state: '',
-    zip: '',
-    vehicleNotes: '',
+  useEffect(() => {
+    setLoyalty(getLoyaltyState());
+    return subscribeToLoyaltyUpdates(setLoyalty);
+  }, []);
+
+  // Persistent confirmation number per checkout modal session
+  const [confirmationNumber] = useState(() => {
+    const randomSixDigit = Math.floor(100000 + Math.random() * 900000);
+    return `LED-${randomSixDigit}`;
   });
 
   if (!isOpen) return null;
 
   const totalPairs = items.reduce((sum, item) => sum + item.quantity, 0) || 1;
-  const bulbsSubtotal = items.reduce((sum, item) => sum + item.quantity * item.bulb.price, 0) || 35;
-  const shippingCost = deliveryMethod === 'shipping' ? OWNER_CONTACT.shippingCost : 0;
-  const finalTotal = bulbsSubtotal + shippingCost;
+  const bulbsSubtotal = items.reduce((sum, item) => sum + item.quantity * item.bulb.price, 0) || (totalPairs * 40);
+  const loyaltyDiscount = loyalty.isRepeatBuyer ? totalPairs * REPEAT_BUYER_DISCOUNT_PER_PAIR : 0;
+  // Free Shipping! Nationwide tracked shipping is $0.00 (included in the price)
+  const shippingCost = 0;
+  const finalTotal = Math.max(0, (totalPairs * 40) - loyaltyDiscount);
 
   const itemSummary = items.length > 0 
     ? items.map(i => `${i.quantity}x ${i.bulb.socketCode}`).join(', ') 
     : '1x Pair (Select Socket)';
 
   // Build the Cash App Note memo
-  const cashAppMemoText = `LED Headlights: ${itemSummary} | Name: ${formData.name || '[Your Name]'} | Ship: ${
-    deliveryMethod === 'shipping'
-      ? `${formData.street || ''}, ${formData.city || ''} ${formData.state || ''} ${formData.zip || ''}`
-      : 'Chicago Local Pickup'
-  } | Ph: ${formData.phone || ''}`;
+  const cashAppMemoText = `Conf #${confirmationNumber} | ${itemSummary} | $${finalTotal} Total ${
+    loyalty.isRepeatBuyer ? '(VIP Repeat Driver -$5/pr)' : ''
+  } | ${deliveryMethod === 'shipping' ? 'Free Tracked Shipping' : 'Chicago Local Pickup'}`;
+
+  // Complete email body template to LEDHeadLightsChicago@Gmail.Com
+  const emailSubject = `Order Shipping Processing - Confirmation #${confirmationNumber} - ${itemSummary}`;
+  
+  const emailBodyText = `Order Shipping Processing Details:
+=====================================================
+Website Confirmation Number: ${confirmationNumber}
+Total Amount Paid: $${finalTotal}.00 (via Cash App $${OWNER_CONTACT.cashAppHandle})
+Items Ordered: ${itemSummary} (6000K Diamond White Mini LEDs)
+VIP Repeat Driver Status: ${loyalty.isRepeatBuyer ? `ACTIVE ($${loyaltyDiscount}.00 Loyalty Discount Applied + ${REPEAT_BUYER_BONUS_ITEM} Included)` : 'Standard Customer'}
+Fulfillment: ${deliveryMethod === 'shipping' ? 'FREE Tracked Nationwide Shipping ($0.00)' : 'Chicago Local Pickup ($0.00)'}
+Guarantees: 100% Customer Satisfaction Guarantee & Free Replacement Included!
+
+CUSTOMER SHIPPING PROCESSING DETAILS:
+-----------------------------------------------------
+1. Full Name: [Please enter your full name]
+2. Shipping Address: [Please enter street, city, state, zip]
+3. Cash App Username (Sent from): [Please enter your Cash App $Username]
+4. Phone Number: [Please enter phone number for tracking SMS]
+5. Vehicle Year/Make/Model: [e.g. 2018 Toyota Camry Low Beam]
+
+* ATTACHED SCREENSHOT:
+I have attached the screenshot of website confirmation #${confirmationNumber} and payment receipt for shipping processing.
+
+Thank you!`;
 
   const handleCopyCashTag = () => {
     navigator.clipboard.writeText(OWNER_CONTACT.cashTag);
     setCopiedCashTag(true);
     setTimeout(() => setCopiedCashTag(false), 2000);
+  };
+
+  const handleCopyConfirmationNumber = () => {
+    navigator.clipboard.writeText(confirmationNumber);
+    setCopiedConfirmation(true);
+    setTimeout(() => setCopiedConfirmation(false), 2000);
+  };
+
+  const handleCopyTargetEmail = () => {
+    navigator.clipboard.writeText(OWNER_CONTACT.orderEmail);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleCopyFullEmailTemplate = () => {
+    recordLoyaltyOrder(confirmationNumber, itemSummary, finalTotal);
+    navigator.clipboard.writeText(`To: ${OWNER_CONTACT.orderEmail}\nSubject: ${emailSubject}\n\n${emailBodyText}`);
+    setCopiedFullTemplate(true);
+    setTimeout(() => setCopiedFullTemplate(false), 2500);
   };
 
   const handleCopyMemo = () => {
@@ -76,41 +138,45 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
     setTimeout(() => setCopiedMemo(false), 2500);
   };
 
-  const handleEmailOrder = () => {
-    const subject = encodeURIComponent(`Order for ${itemSummary} - Total $${finalTotal}`);
-    const body = encodeURIComponent(
-      `Hello Mantas,\n\nI just placed an order for LED Headlights.\n\nItems: ${itemSummary}\nTotal Amount: $${finalTotal} (Paid via Cash App $${OWNER_CONTACT.cashAppHandle})\nDelivery: ${deliveryMethod === 'shipping' ? 'Nationwide Shipping ($10 • 7-14 Business Days)' : 'Chicago Local Pickup'}\n\nCustomer Details:\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nAddress: ${formData.street}, ${formData.city}, ${formData.state} ${formData.zip}\nVehicle: ${formData.vehicleNotes}\n\nThank you!`
-    );
-    window.location.href = `mailto:${OWNER_CONTACT.email}?subject=${subject}&body=${body}`;
+  const handleOpenEmailClient = () => {
+    recordLoyaltyOrder(confirmationNumber, itemSummary, finalTotal);
+    const subject = encodeURIComponent(emailSubject);
+    const body = encodeURIComponent(emailBodyText);
+    window.location.href = `mailto:${OWNER_CONTACT.orderEmail}?subject=${subject}&body=${body}`;
   };
 
   const handleSmsOrder = () => {
+    recordLoyaltyOrder(confirmationNumber, itemSummary, finalTotal);
     const body = encodeURIComponent(
-      `Hi Mantas! Order for ${itemSummary} ($${finalTotal}). Name: ${formData.name}. Address: ${formData.street}, ${formData.city} ${formData.zip}. Sent via Cash App to $${OWNER_CONTACT.cashAppHandle}`
+      `Hi Matt! Confirmation #${confirmationNumber}. Order for ${itemSummary} ($${finalTotal} via Cash App $${OWNER_CONTACT.cashAppHandle}${loyalty.isRepeatBuyer ? ' VIP Repeat Driver' : ''}). Please reply for my shipping address & screenshot!`
     );
     window.location.href = `sms:${OWNER_CONTACT.phoneRaw}?body=${body}`;
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-3xl card-glass rounded-2xl border border-zinc-700 shadow-2xl p-4 sm:p-6 md:p-8 my-auto max-h-[92vh] overflow-y-auto space-y-4 sm:space-y-6">
+      <div className="relative w-full max-w-3xl card-glass rounded-2xl border border-zinc-700 shadow-2xl p-4 sm:p-6 md:p-8 my-auto max-h-[94vh] overflow-y-auto space-y-4 sm:space-y-6">
         
         {/* Modal Header */}
         <div className="flex items-start justify-between pb-3 sm:pb-4 border-b border-zinc-800">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs">
-                Official Cash App Checkout
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-mono font-bold text-xs flex items-center gap-1">
+                <Zap className="w-3.5 h-3.5" />
+                Fast 1-Click Checkout
               </span>
-              <span className="px-2 py-0.5 rounded bg-zinc-800 text-sky-300 text-xs font-semibold">
-                6000K Mini LEDs
+              <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 text-xs font-bold border border-emerald-500/30">
+                $40 Flat Pair • FREE Shipping
+              </span>
+              <span className="px-2 py-0.5 rounded bg-sky-950/80 text-sky-300 text-xs font-bold border border-sky-500/30">
+                Customer Satisfaction Guarantee & Free Replacement!
               </span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white font-heading mt-2">
               Order via Cash App (${OWNER_CONTACT.cashAppHandle})
             </h3>
             <p className="text-xs text-zinc-400 mt-1">
-              $35.00 each pair • $10 Flat-Rate Shipping (7-14 Business Days) or Free Chicago Local Pickup
+              $40 Flat per pair • 100% FREE Tracked Shipping (7-14 Business Days) • Customer Satisfaction Guarantee & Free Replacement Included!
             </p>
           </div>
 
@@ -122,7 +188,39 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
           </button>
         </div>
 
-        {/* Step 1: Order Summary & Fulfillment Choice */}
+        {/* Website Order Confirmation Number Banner */}
+        <div className="p-4 rounded-xl bg-gradient-to-r from-sky-950/60 via-zinc-900 to-emerald-950/50 border border-sky-500/40 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <FileCheck2 className="w-4 h-4 text-sky-400 shrink-0" />
+                <span className="text-xs uppercase tracking-wider font-bold text-sky-400">
+                  Your Official Website Confirmation Number:
+                </span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-wider">
+                {confirmationNumber}
+              </div>
+              <p className="text-[11px] text-zinc-300 flex items-center gap-1.5 pt-0.5">
+                <Camera className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span><strong>Take a screenshot of this screen now!</strong> Attach it to your email, WhatsApp, or text.</span>
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleCopyConfirmationNumber}
+                className="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-mono font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-sky-500/40"
+              >
+                {copiedConfirmation ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedConfirmation ? 'Copied!' : `Copy ${confirmationNumber}`}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Order Items & Fulfillment Choice */}
         <div className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl bg-zinc-900/90 border border-zinc-800">
             <div>
@@ -131,11 +229,11 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 {itemSummary}
               </div>
               <span className="text-xs text-zinc-400">
-                {totalPairs} {totalPairs === 1 ? 'pair' : 'pairs'} × $35 = <strong className="text-white">${bulbsSubtotal}</strong>
+                {totalPairs} {totalPairs === 1 ? 'pair' : 'pairs'} × $40 flat = <strong className="text-white">${bulbsSubtotal}</strong>
               </span>
             </div>
 
-            {/* Delivery Method Toggle - Full width on mobile */}
+            {/* Delivery Method Toggle */}
             <div className="flex w-full sm:w-auto rounded-lg bg-zinc-950 p-1 border border-zinc-800">
               <button
                 type="button"
@@ -147,7 +245,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 }`}
               >
                 <Truck className="w-3.5 h-3.5" />
-                <span>Shipping (+$10 • 7-14 Days)</span>
+                <span>FREE Shipping ($0)</span>
               </button>
               <button
                 type="button"
@@ -164,20 +262,53 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
             </div>
           </div>
 
-          {/* Pricing Calculation Breakdown */}
-          <div className="p-3.5 sm:p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-1.5 sm:space-y-2 text-xs">
+          {/* Pricing Breakdown: $40 flat per pair + Free Shipping + Satisfaction Guarantee */}
+          <div className="p-3.5 sm:p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-2 text-xs">
             <div className="flex justify-between text-zinc-300">
-              <span>LED Headlight Bulbs Subtotal ({totalPairs} pair{totalPairs > 1 ? 's' : ''}):</span>
+              <span>LED Headlight Bulbs Subtotal ({totalPairs} pair{totalPairs > 1 ? 's' : ''} × $40.00 flat):</span>
               <span className="font-mono font-bold">${bulbsSubtotal}.00</span>
             </div>
-            <div className="flex justify-between text-zinc-300">
-              <span>Fulfillment ({deliveryMethod === 'shipping' ? 'Nationwide Shipping (7-14 Business Days)' : 'Chicago In-Person Pickup'}):</span>
-              <span className="font-mono font-bold text-sky-400">
-                {deliveryMethod === 'shipping' ? '+$10.00' : '$0.00 (Free)'}
+
+            {loyalty.isRepeatBuyer && (
+              <>
+                <div className="flex justify-between text-amber-300 font-bold bg-amber-500/15 p-2 rounded-lg border border-amber-500/30">
+                  <span className="flex items-center gap-1.5">
+                    <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                    VIP Repeat Buyer Loyalty Discount (-${REPEAT_BUYER_DISCOUNT_PER_PAIR}/pair):
+                  </span>
+                  <span className="font-mono text-sm">-${loyaltyDiscount}.00</span>
+                </div>
+                <div className="flex justify-between text-amber-300 text-[11px] px-1">
+                  <span className="flex items-center gap-1.5 font-semibold">
+                    <Gift className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    Returning Driver Gift:
+                  </span>
+                  <span className="font-mono font-bold text-emerald-400 uppercase">FREE T10 LED Pair Included</span>
+                </div>
+              </>
+            )}
+
+            <div className="flex justify-between text-emerald-400">
+              <span className="flex items-center gap-1.5 font-bold">
+                <Truck className="w-3.5 h-3.5 text-emerald-400" />
+                Tracked Nationwide Shipping (7-14 Business Days):
               </span>
+              <span className="font-mono font-bold uppercase">FREE ($0.00)</span>
+            </div>
+            <div className="flex justify-between text-sky-400">
+              <span className="flex items-center gap-1.5 font-bold">
+                <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
+                Customer Satisfaction Guarantee & Free Replacement:
+              </span>
+              <span className="font-mono font-bold uppercase">100% INCLUDED</span>
             </div>
             <div className="pt-2 border-t border-zinc-800 flex justify-between items-baseline text-sm">
-              <span className="font-bold text-white uppercase tracking-wider">Total Due via Cash App:</span>
+              <div>
+                <span className="font-bold text-white uppercase tracking-wider block">Total Due via Cash App:</span>
+                {loyalty.isRepeatBuyer && (
+                  <span className="text-[11px] text-emerald-400 font-semibold">VIP Repeat Pricing: $35 flat per pair</span>
+                )}
+              </div>
               <span className="text-xl sm:text-2xl font-black text-emerald-400 font-mono">
                 ${finalTotal}.00
               </span>
@@ -185,13 +316,13 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
           </div>
         </div>
 
-        {/* Step 2: Cash App Link & Direct Pay Button */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-3.5 sm:space-y-4">
+        {/* Step 1: Send Payment on Cash App */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
             <div className="space-y-1">
               <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 flex items-center gap-1.5">
                 <Check className="w-4 h-4 text-emerald-400" />
-                Step 1: Send ${finalTotal} on Cash App
+                Step 1: Pay ${finalTotal} on Cash App
               </span>
               <div className="flex flex-wrap items-center gap-2 pt-0.5">
                 <span className="text-xl sm:text-2xl font-black text-white font-mono break-all">
@@ -208,7 +339,7 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
                 </button>
               </div>
               <p className="text-xs text-zinc-300">
-                Account Holder: <strong className="text-white">Mantas</strong> ({OWNER_CONTACT.phone})
+                Account Holder: <strong className="text-white">Matt</strong> ({OWNER_CONTACT.phone})
               </p>
             </div>
 
@@ -224,123 +355,142 @@ export const CashAppOrderModal: React.FC<CashAppOrderModalProps> = ({
           </div>
         </div>
 
-        {/* Step 3: Shipping & Contact Form */}
-        <div className="space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
-              Step 2: Enter Delivery Details for Tracking & Receipt
-            </h4>
-            <span className="text-[11px] text-zinc-400">
-              Or text directly to (312) 385-9229
-            </span>
+        {/* Step 2 (Instant & Frictionless): Send Details & Screenshot via Email, WhatsApp, or Text */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 space-y-4">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0 mt-0.5">
+              <Send className="w-5 h-5" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold uppercase tracking-wider">
+                  Instant Verification
+                </span>
+                <span className="text-xs text-amber-200 font-bold">
+                  Fast & Smooth Order Shipping Processing
+                </span>
+              </div>
+              <h4 className="text-base sm:text-lg font-black text-white font-heading">
+                Step 2: Send Payment Confirmation & Shipping Address
+              </h4>
+              <p className="text-xs text-zinc-300">
+                After finishing payment on Cash App, send an email to <strong className="text-amber-300 font-mono">{OWNER_CONTACT.orderEmail}</strong> or contact Matt directly on WhatsApp or Text!
+              </p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-            <input
-              type="text"
-              placeholder={t.orderFormName + ' *'}
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-            />
-            <input
-              type="tel"
-              placeholder={t.orderFormPhone + ' (for tracking text) *'}
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-            />
-          </div>
-
-          {deliveryMethod === 'shipping' && (
-            <div className="space-y-2.5 sm:space-y-3 pt-1">
-              <input
-                type="text"
-                placeholder={t.orderFormAddress + ' *'}
-                value={formData.street}
-                onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                <input
-                  type="text"
-                  placeholder={t.orderFormCity}
-                  value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder={t.orderFormState}
-                  value={formData.state}
-                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder={t.orderFormZip}
-                  value={formData.zip}
-                  onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
-                  className="px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-                />
+          <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-amber-500/30 text-xs text-zinc-200 space-y-2">
+            <p className="font-bold text-amber-200 flex items-center gap-1.5">
+              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>Please send these details for immediate shipping dispatch:</span>
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] sm:text-xs text-zinc-300">
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800">
+                • <strong className="text-white">Full Name</strong>
+              </div>
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800">
+                • <strong className="text-white">Shipping Address</strong> (Street, City, State, ZIP)
+              </div>
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800">
+                • <strong className="text-white">Cash App Username</strong> (Where payment was made)
+              </div>
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800">
+                • <strong className="text-white">Phone Number</strong> (for USPS tracking text)
               </div>
             </div>
-          )}
-
-          <input
-            type="text"
-            placeholder={t.orderFormVehicle + ' (e.g. 2017 Honda Civic Low Beam)'}
-            value={formData.vehicleNotes}
-            onChange={(e) => setFormData({ ...formData, vehicleNotes: e.target.value })}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 focus:border-sky-400 text-white text-xs placeholder-zinc-500 focus:outline-none"
-          />
-        </div>
-
-        {/* Quick Send & Copy Buttons */}
-        <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 space-y-3">
-          <div className="text-xs text-zinc-300">
-            <strong>Easy 1-Click Notifications to Mantas:</strong>
+            <p className="text-[11px] text-amber-300 pt-1 font-semibold flex items-center gap-1">
+              <Camera className="w-3.5 h-3.5 shrink-0" />
+              <span>Include your Confirmation Number <strong>#{confirmationNumber}</strong> and attach a screenshot of this screen & Cash App receipt.</span>
+            </p>
           </div>
 
+          {/* Instant 1-Click Action Buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
             <button
               type="button"
-              onClick={handleCopyMemo}
-              className="py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-zinc-700"
+              onClick={handleOpenEmailClient}
+              className="py-3 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-amber-500/20 group"
             >
-              {copiedMemo ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-sky-400" />}
-              <span>{copiedMemo ? 'Memo Copied!' : 'Copy Cash App Memo'}</span>
+              <Mail className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+              <span>Send Order Email</span>
             </button>
+
+            <a
+              href={OWNER_CONTACT.whatsAppUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="py-3 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-emerald-600/20"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Send on WhatsApp</span>
+            </a>
 
             <button
               type="button"
               onClick={handleSmsOrder}
-              className="py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-zinc-700"
+              className="py-3 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg shadow-sky-600/20"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Text to (312) 385-9229</span>
+              <Phone className="w-4 h-4" />
+              <span>Send Text / SMS</span>
+            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+            <button
+              type="button"
+              onClick={handleCopyFullEmailTemplate}
+              className="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold flex items-center gap-1.5 transition-colors border border-zinc-700"
+            >
+              {copiedFullTemplate ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-sky-400" />}
+              <span>{copiedFullTemplate ? 'Order Template Copied!' : 'Copy Order Text Template'}</span>
             </button>
 
             <button
               type="button"
-              onClick={handleEmailOrder}
-              className="py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-zinc-700"
+              onClick={handleCopyTargetEmail}
+              className="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold flex items-center gap-1.5 transition-colors border border-zinc-700"
             >
-              <Mail className="w-3.5 h-3.5 text-sky-400" />
-              <span>Email Mantas</span>
+              {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+              <span>{copiedEmail ? 'Email Copied!' : `Copy ${OWNER_CONTACT.orderEmail}`}</span>
             </button>
           </div>
         </div>
 
-        {/* Footer Contact Reminder */}
-        <div className="pt-2 border-t border-zinc-800 flex flex-wrap items-center justify-between text-xs text-zinc-400 gap-2">
-          <span>Need help or have questions?</span>
-          <div className="flex items-center gap-4">
+        {/* Social Channels & Contact Links */}
+        <div className="pt-3 border-t border-zinc-800 flex flex-wrap items-center justify-between text-xs text-zinc-400 gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-zinc-500 font-semibold">Connect with Matt:</span>
+            <a
+              href={OWNER_CONTACT.whatsAppUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-emerald-400 hover:underline font-bold flex items-center gap-1"
+            >
+              WhatsApp
+            </a>
+            <span className="text-zinc-700">•</span>
+            <a
+              href={OWNER_CONTACT.tikTokUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-pink-400 hover:underline font-bold flex items-center gap-1"
+            >
+              TikTok
+            </a>
+            <span className="text-zinc-700">•</span>
+            <a
+              href={OWNER_CONTACT.instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-purple-400 hover:underline font-bold flex items-center gap-1"
+            >
+              Instagram
+            </a>
+          </div>
+
+          <div className="flex items-center gap-3">
             <a href={`tel:${OWNER_CONTACT.phoneRaw}`} className="text-sky-400 hover:underline font-bold">
               Call/Text: {OWNER_CONTACT.phone}
-            </a>
-            <a href={`mailto:${OWNER_CONTACT.email}`} className="text-sky-400 hover:underline">
-              {OWNER_CONTACT.email}
             </a>
           </div>
         </div>
